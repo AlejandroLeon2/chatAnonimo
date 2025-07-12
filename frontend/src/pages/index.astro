@@ -1,8 +1,53 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
+import Card from '../components/Card.astro';
 ---
 
 <Layout>
 
+    <header class="bg-blue-600 py-6 shadow-md rounded-b-2xl">
+        <h2 class="text-3xl font-semibold text-white text-center tracking-wide">Chats Anónimos</h2>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
+            <Card
+                icon="💻"
+                title="Tecnología"
+                description="Comparte ideas sobre avances tecnológicos, gadgets y programación."
+                buttonText="Ingresar a la sala"
+                />
+            <Card
+                icon="🎵"
+                title="Música"
+                description="Habla sobre tus géneros favoritos, artistas y descubre nueva música."
+                buttonText="Ingresar a la sala"
+            />
+            <Card
+                icon="🎬"
+                title="Películas"
+                description="Recomienda películas, comenta estrenos o clásicos que te encantan."
+                buttonText="Ingresar a la sala"
+            />
+            <Card
+                icon="☕"
+                title="Café Chat"
+                description="Un espacio relajado para charlar de cualquier tema, como en una cafetería."
+                buttonText="Ingresar a la sala"
+            />
+            <Card
+                icon="🎮"
+                title="Videojuegos"
+                description="Comparte tus juegos favoritos, tips, y experiencias gamer."
+                buttonText="Ingresar a la sala"
+            />
+            <Card
+                icon="📖"
+                title="Libros"
+                description="Habla sobre lecturas interesantes, autores y libros que te inspiraron."
+                buttonText="Ingresar a la sala"
+            />
+
+        </section>
+  </main>
 </Layout>
