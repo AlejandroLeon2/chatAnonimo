@@ -2,15 +2,22 @@
 const { icon, title, description, buttonText } = Astro.props;
 ---
 
-<div class="bg-white p-6 rounded-2xl shadow transition-transform transform hover:scale-105 text-center flex flex-col">
-  <div class="w-16 h-16 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-2xl mx-auto">
+<div
+  class="bg-white p-6 rounded-2xl shadow transition-transform transform hover:scale-105 text-center flex flex-col"
+>
+  <div
+    class="w-16 h-16 rounded-full hover:rotate-45 duration-300 delay-200 bg-blue-100 flex items-center justify-center mb-4 text-2xl mx-auto"
+  >
     {icon}
   </div>
-  <h2 class="text-xl text-gray-950 font-semibold mb-2">{title}</h2>
+  <h2 class="text-xl kaus text-gray-950 font-semibold mb-2">{title}</h2>
   <p class="text-gray-600 mb-4">{description}</p>
 
   <div class="mt-auto">
-    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+    <button
+      data-title ={title}
+      class="btn-modal px-4 py-2 active:scale-95 duration-300 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+    >
       {buttonText}
     </button>
   </div>

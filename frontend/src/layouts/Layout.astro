@@ -1,5 +1,6 @@
 ---
-import "../styles/global.css"; // Aquí puedes tener Tailwind
+import "../styles/global.css";
+import Modal from "../components/Modal.astro";
 ---
 
 <!doctype html>
@@ -11,7 +12,8 @@ import "../styles/global.css"; // Aquí puedes tener Tailwind
     <meta name="generator" content={Astro.generator} />
     <title>Chats Anónimos</title>
   </head>
-  <body class="bg-gray-50 text-gray-900">
+  <body class="bg-gray-50 text-gray-900 poppins">
     <slot />
+    <Modal/>
   </body>
 </html>
