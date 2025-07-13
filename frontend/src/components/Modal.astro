@@ -1,0 +1,59 @@
+<div
+  id="modal"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="modal-title"
+>
+  <div class="bg-white w-full max-w-sm rounded-lg shadow-lg p-6">
+    <header class="flex items-center justify-between mb-4">
+      <h2
+        id="modal-title"
+        class="text-2xl kaus mx-auto font-semibold text-gray-800"
+      >
+        ¿Ingresar a la sala?
+      </h2>
+      <button
+        class="btn-close text-gray-500 hover:text-red-600 text-3xl active:scale-95 duration-300"
+        aria-label="Cerrar modal"
+      >
+        x
+      </button>
+    </header>
+    <form class="gap-4 flex flex-col" action="/" method="POST">
+      <p id="modal-content" class="text-lg text-gray-600">
+        Sala seleccionada: <span class="font-semibold">...</span>
+      </p>
+
+      <input
+        type="text"
+        name="nombre"
+        placeholder="UsuarioAnonimo123"
+        required
+        class="mb-4 px-4 py-2 border rounded w-full"
+      />
+      <button
+        class="btn-close px-4 py-2 bg-red-500 active:scale-95 duration-300 text-white rounded hover:bg-red-700"
+      >
+        Cancelar
+      </button>
+
+      <!--  <button
+        type="submit"
+        id="confirmar"
+        class="px-4 py-2 bg-green-500 active:scale-95 duration-300 text-white rounded hover:bg-green-700"
+      >
+        Confirmar
+      </button>
+
+
+      temporal
+      -->
+      <a
+        type="buttom"
+        class="px-4 py-2 bg-green-500 active:scale-95 duration-300 text-center text-white rounded hover:bg-green-700"
+        href="/chat">Confirmar</a
+      >
+    </form>
+  </div>
+</div>
