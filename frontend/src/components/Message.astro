@@ -14,7 +14,9 @@
     </button>
 </div>
 
-<script>
+
+<script is:inline>
+
     const mensajes = [];
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -25,11 +27,16 @@
 
         btnSubmit?.addEventListener("click", () => {
             const texto = imputMessage?.value.trim();
+
+            const usuario = JSON.parse(localStorage.getItem("sessionActual"));
+
             if (texto !== "") {
                 //if (user instanceof HTMLInputElement) {
                     const newMessage = {
                     text: texto,
-                    autor: 'usuario',
+
+                    autor: usuario.nombre,
+
                     dia: new Date().toLocaleDateString(),
                     hora: new Date().toLocaleTimeString()
                     };

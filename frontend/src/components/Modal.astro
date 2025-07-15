@@ -26,6 +26,7 @@
       </p>
 
       <input
+        id="nameUsuario"
         type="text"
         name="nombre"
         placeholder="UsuarioAnonimo123"
@@ -33,27 +34,107 @@
         class="mb-4 px-4 py-2 border rounded w-full"
       />
       <button
+      type="button"
         class="btn-close px-4 py-2 bg-red-500 active:scale-95 duration-300 text-white rounded hover:bg-red-700"
       >
         Cancelar
       </button>
 
-      <!--  <button
+      <button
         type="submit"
         id="confirmar"
         class="px-4 py-2 bg-green-500 active:scale-95 duration-300 text-white rounded hover:bg-green-700"
       >
         Confirmar
       </button>
-
-
-      temporal
-      -->
-      <a
-        type="buttom"
-        class="px-4 py-2 bg-green-500 active:scale-95 duration-300 text-center text-white rounded hover:bg-green-700"
-        href="/chat">Confirmar</a
-      >
     </form>
   </div>
 </div>
+<script is:inline>
+  const adjetivos = [
+    "Brincolín",
+    "Furioso",
+    "Rugiente",
+    "Chispeante",
+    "Tambaleante",
+    "Invisible",
+    "Bailarín",
+    "Sonriente",
+    "Lunar",
+    "Chiflado",
+  ];
+
+  const animales = [
+    "Ardilla",
+    "Tortuga",
+    "Panda",
+    "Pingüino",
+    "Cangrejo",
+    "Zorro",
+    "Koala",
+    "Canguro",
+    "Mapache",
+    "Pulpo",
+  ];
+
+  function generarName() {
+    const adj = adjetivos[Math.floor(Math.random() * adjetivos.length)];
+    const animal = animales[Math.floor(Math.random() * animales.length)];
+    const $input = document.getElementById("nameUsuario");
+    $input.value = `${animal}${adj}`;
+  }
+  function local(input) {
+    const sessionActual = {
+      nombre: input,
+      activo: true,
+    };
+    localStorage.setItem("sessionActual", JSON.stringify(sessionActual));
+  }
+  document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("modal");
+    const modalContent = document.getElementById("modal-content");
+    const confirmBtn = document.getElementById("confirmar");
+    let salaSeleccionada = null;
+
+    const botones = document.getElementsByClassName("btn-modal");
+    modal.addEventListener("click", (event) => {
+      if (event.target === event.currentTarget) {
+        modal.classList.add("hidden");
+      }
+    });
+    for (let btn of botones) {
+      btn.addEventListener("click", (e) => {
+        const title = btn.dataset.title;
+        salaSeleccionada = title.trim();
+        modalContent.innerHTML = `Sala seleccionada: <span class="font-semibold">${salaSeleccionada}</span>`;
+        generarName();
+        modal.classList.remove("hidden");
+      });
+    }
+
+    const cerrarBotones = document.getElementsByClassName("btn-close");
+
+    for (let btn of cerrarBotones) {
+      btn.addEventListener("click", () => {
+        modal.classList.add("hidden");
+      });
+    }
+    const form = modal.querySelector("form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const $input = document.getElementById("nameUsuario");
+      if ($input.value.trim() === "") {
+        generarName();
+      }
+      const $inputs = document.getElementById("nameUsuario");
+      local($inputs.value);
+      window.location.href = "/chat";
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        modal.classList.add("hidden");
+      }
+    });
+  });
+</script>
