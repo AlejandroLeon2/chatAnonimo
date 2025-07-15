@@ -1,10 +1,102 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const mensajes = [
+  {
+    id: 1,
+    user: "User 789",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 2,
+    user: "yo",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+  {
+    id: 3,
+    user: "User 123",
+    text: "Hi",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 4,
+    user: "Yo",
+    text: "dsgfsd",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+  {
+    id: 5,
+    user: "User 123",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 6,
+    user: "yo",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+  {
+    id: 7,
+    user: "User 123",
+    text: "Hi",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 8,
+    user: "Yo",
+    text: "dsgfsd",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+];
 ---
 
 <Layout>
 <main>
 
+<section class="bg-gray-100 h-screen w-full flex flex-col">
+  <div class="flex flex-col flex-1 bg-white">
+    <header class="bg-blue-600 text-white p-4 text-center font-bold text-lg">
+      parte de Daniel 
+    </header>
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      {mensajes.map(msg => (
+        <div
+          class={`flex ${msg.fromMe ? 'justify-end' : 'justify-start'}`}
+          key={msg.id}
+        >
+          <div
+            class={`max-w-[80%] rounded-lg p-3 text-sm ${
+              msg.fromMe
+                ? 'bg-blue-600 text-white rounded-br-none'
+                : 'bg-gray-200 text-gray-900 rounded-bl-none'
+            }`}
+          >
+            <div class="text-xs font-semibold mb-1">
+              {msg.user}
+            </div>
+            <div class="break-words">
+              {msg.text}
+            </div>
+            <div class="text-[10px] text-gray-400 mt-1 text-right">
+              {msg.time}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
 
 </main>
