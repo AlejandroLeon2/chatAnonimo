@@ -1,0 +1,46 @@
+<div class="flex align-middle justify-center px-5 object-bottom">
+    <input 
+        type="text" 
+        id="message" 
+        placeholder="your message..." 
+        class="border border-gray-400 px-2 py-2 w-[95%] h-11 mr-1 shadow-lg rounded-md 
+                focus:outline-none focus:border-gray-500" 
+        required>
+    <button 
+        id="submit" 
+        class="border-2 border-gray-400 rounded-md bg-gray-400 text-white px-2 py-1 w-16 h-11 text-2xl 
+                shadow-lg cursor-pointer align-middle hover:bg-gray-500 hover:border-gray-500">
+    ⌯⌲
+    </button>
+</div>
+
+<script is:inline>
+    const mensajes = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const btnSubmit = document.getElementById("submit");
+        const imputMessage = document.querySelector("input");
+
+        //const user = document.getElementById("usuario");
+
+        btnSubmit?.addEventListener("click", () => {
+            const texto = imputMessage?.value.trim();
+            const usuario = JSON.parse(localStorage.getItem("sessionActual"));
+            if (texto !== "") {
+                //if (user instanceof HTMLInputElement) {
+                    const newMessage = {
+                    text: texto,
+                    autor: usuario.nombre,
+                    dia: new Date().toLocaleDateString(),
+                    hora: new Date().toLocaleTimeString()
+                    };
+                    mensajes.push(newMessage);
+                //}
+                console.log('Mensaje guardado:', mensajes);
+                if (imputMessage?.value) {
+                    imputMessage.value = "";
+                }
+            }
+        })
+    })
+</script>
