@@ -1,19 +1,19 @@
-<div class="flex align-middle justify-center px-5 object-bottom">
-    <input 
-        type="text" 
+<div class="fixed flex bottom-0 h-[35%] w-full px-5 py-3 object-bottom items-end">
+    <div 
+        contenteditable="true"
+        role="textbox"
+        aria-placeholder="Escribe un mensaje..."
         id="message" 
-        placeholder="your message..." 
-        class="border border-gray-400 px-2 py-2 w-[95%] h-11 mr-1 shadow-lg rounded-md 
-                focus:outline-none focus:border-gray-500" 
-        required>
+        class=" border border-gray-400 px-2 py-2 w-[95%] max-h-[100%] min-h-11 mr-1 shadow-lg rounded-md
+            overflow-y-auto resize-none focus:outline-none focus:border-gray-500">
+    </div>
     <button 
         id="submit" 
         class="border-2 border-gray-400 rounded-md bg-gray-400 text-white px-2 py-1 w-16 h-11 text-2xl 
-                shadow-lg cursor-pointer align-middle hover:bg-gray-500 hover:border-gray-500">
+            shadow-lg cursor-pointer align-middle hover:bg-gray-500 hover:border-gray-500">
     ⌯⌲
     </button>
 </div>
-
 
 <script is:inline>
 
@@ -21,30 +21,42 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         const btnSubmit = document.getElementById("submit");
-        const imputMessage = document.querySelector("input");
+        const spanMessage = document.getElementById("message");
 
         //const user = document.getElementById("usuario");
-
-        btnSubmit?.addEventListener("click", () => {
-            const texto = imputMessage?.value.trim();
-
+        function enviarMensaje(){
+            let texto = spanMessage?.innerText.trim();
             const usuario = JSON.parse(localStorage.getItem("sessionActual"));
 
             if (texto !== "") {
-                //if (user instanceof HTMLInputElement) {
-                    const newMessage = {
-                    text: texto,
+                const newMessage = {
+                text: texto,
+                autor: usuario.nombre,
+                dia: new Date().toLocaleDateString(),
+                hora: new Date().toLocaleTimeString()
+                };
+                
+                mensajes.push(newMessage);
 
-                    autor: usuario.nombre,
-
-                    dia: new Date().toLocaleDateString(),
-                    hora: new Date().toLocaleTimeString()
-                    };
-                    mensajes.push(newMessage);
-                //}
                 console.log('Mensaje guardado:', mensajes);
-                if (imputMessage?.value) {
-                    imputMessage.value = "";
+                if (spanMessage?.innerText) {
+                    spanMessage.innerText = "";
+                }
+            }
+        }
+        
+        //boton para enviar el texto
+        btnSubmit?.addEventListener("click", () => {
+            enviarMensaje();
+        });
+
+        //enviar con Enter
+        spanMessage?.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                if (event.shiftKey){
+                }else{
+                event.preventDefault();
+                enviarMensaje();
                 }
             }
         })
