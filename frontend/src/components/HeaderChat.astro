@@ -1,0 +1,19 @@
+<header class="bg-blue-600 text-white p-6 rounded-b-2xl shadow-gray-800 shadow-md flex justify-between items-center">
+    <h2 class="text-xl font-semibold">Usuario: <span id="apodo" class="text-yellow-300"></span></h2>
+    <h2 class="text-xl font-semibold">Sala: <span id="sala" class="text-yellow-300"></span></h2>
+    <a href="/" class="px-4 py-2 bg-red-600 rounded-md text-xl font-semibold hover:bg-red-700 active:shadow-red-600 active:shadow-md">Lobby</a>
+</header>
+
+<script is:inline>
+    const apodo = document.getElementById("apodo");
+    const sala = document.getElementById("sala");
+    const usuario = JSON.parse(localStorage.getItem("sessionActual"));
+
+    if (usuario) {
+        apodo.textContent = usuario.nombre;
+        sala.textContent = usuario.sala;
+    } else {
+        apodo.textContent = "Bienvenido al chat anónimo";
+        sala.textContent = usuario.sala;
+    }
+</script>

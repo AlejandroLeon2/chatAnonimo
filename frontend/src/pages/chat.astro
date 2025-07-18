@@ -1,14 +1,19 @@
 ---
 import Message from "../components/Message.astro";
 import Layout from "../layouts/Layout.astro";
+import HeaderChat from "../components/HeaderChat.astro";
 ---
 
 <Layout>
-<main class="min-h-[90vh]">
+    <header>
+        <HeaderChat />
+    </header>
 
-</main>
+    <main class="min-h-[90vh]">
 
-<footer>
-    <Message></Message>
-</footer>
+    </main>
+
+    <footer>
+        <Message></Message>
+    </footer>
 </Layout>
