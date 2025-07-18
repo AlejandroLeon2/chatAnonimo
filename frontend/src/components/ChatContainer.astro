@@ -1,0 +1,21 @@
+---
+import ChatMessage from './ChatMessage.astro'
+
+const { mensajes } = Astro.props
+---
+<section class="bg-gray-100 h-screen w-full flex flex-col">
+  <div class="flex flex-col flex-1 bg-white">
+
+    <section class="flex-1 overflow-y-auto p-4 space-y-4">
+      {mensajes.map(msg => (
+        <ChatMessage
+          key={msg.id}
+          user={msg.user}
+          text={msg.text}
+          time={msg.time}
+          fromMe={msg.fromMe}
+        />
+      ))}
+    </section>
+  </div>
+</section>
