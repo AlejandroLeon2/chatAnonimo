@@ -56,45 +56,4 @@ import Card from "../components/Card.astro";
     </section>
   </main>
 </Layout>
-<script is:inline>
-  const modal = document.getElementById("modal");
-  const modalContent = document.getElementById("modal-content");
-  const confirmBtn = document.getElementById("confirmar");
-  let salaSeleccionada = null;
 
-  const botones = document.getElementsByClassName("btn-modal");
-  modal.addEventListener("click", (event) => {
-    if (event.target === event.currentTarget) {
-      modal.classList.add("hidden");
-    }
-  });
-
-  for (let btn of botones) {
-    btn.addEventListener("click", (e) => {
-      const title = btn.dataset.title;
-      salaSeleccionada = title.trim();
-      modalContent.innerHTML = `Sala seleccionada: <span class="font-semibold">${salaSeleccionada}</span>`;
-      modal.classList.remove("hidden");
-      confirmBtn.focus();
-    });
-  }
-
-  const cerrarBotones = document.getElementsByClassName("btn-close");
-
-  for (let btn of cerrarBotones) {
-    btn.addEventListener("click", () => {
-      modal.classList.add("hidden");
-    });
-  }
-
-  confirmBtn.addEventListener("click", () => {
-    console.log("Ingresando a sala:", salaSeleccionada);
-    modal.classList.add("hidden");
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-      modal.classList.add("hidden");
-    }
-  });
-</script>
