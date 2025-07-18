@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ChatContainer from "../components/chatContainer.astro";
 
 const mensajes = [
   {
@@ -64,40 +65,6 @@ const mensajes = [
 <Layout>
 <main>
 
-<section class="bg-gray-100 h-screen w-full flex flex-col">
-  <div class="flex flex-col flex-1 bg-white">
-    <header class="bg-blue-600 text-white p-4 text-center font-bold text-lg">
-      parte de Daniel 
-    </header>
-    <div class="flex-1 overflow-y-auto p-4 space-y-4">
-      {mensajes.map(msg => (
-        <div
-          class={`flex ${msg.fromMe ? 'justify-end' : 'justify-start'}`}
-          key={msg.id}
-        >
-          <div
-            class={`max-w-[80%] rounded-lg p-3 text-sm ${
-              msg.fromMe
-                ? 'bg-blue-600 text-white rounded-br-none'
-                : 'bg-gray-200 text-gray-900 rounded-bl-none'
-            }`}
-          >
-            <div class="text-xs font-semibold mb-1">
-              {msg.user}
-            </div>
-            <div class="break-words">
-              {msg.text}
-            </div>
-            <div class="text-[10px] text-gray-400 mt-1 text-right">
-              {msg.time}
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</section>
-
-
+  <ChatContainer mensajes={mensajes} />
 </main>
 </Layout>

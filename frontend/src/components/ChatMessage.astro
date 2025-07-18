@@ -1,0 +1,27 @@
+---
+const { user, text, time, fromMe } = Astro.props
+---
+<article
+  class={`flex ${fromMe ? 'justify-end' : 'justify-start'}`}
+  aria-label={`Mensaje de ${user}`}
+>
+  <div
+    class={`max-w-[80%] rounded-lg p-3 text-sm ${
+      fromMe
+        ? 'bg-blue-600 text-white rounded-br-none'
+        : 'bg-gray-200 text-gray-900 rounded-bl-none'
+    }`}
+  >
+    <header class="text-xs font-semibold mb-1">
+      {user}
+    </header>
+
+    <p class="break-words">
+      {text}
+    </p>
+
+    <time class="text-[10px] text-gray-400 mt-1 block text-right">
+      {time}
+    </time>
+  </div>
+</article>
