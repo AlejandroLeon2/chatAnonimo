@@ -14,7 +14,7 @@
         ¿Ingresar a la sala?
       </h2>
       <button
-        class="btn-close text-gray-500 hover:text-red-600 text-3xl active:scale-95 duration-300"
+        class="btn-close text-gray-500 hover:text-red-600 text-3xl active:scale-95 duration-300 cursor-pointer"
         aria-label="Cerrar modal"
       >
         x
@@ -83,10 +83,11 @@
     const $input = document.getElementById("nameUsuario");
     $input.value = `${animal}${adj}`;
   }
-  function local(input) {
+  function local(input, sala) {
     const sessionActual = {
-      nombre: input,
+      nombre: input.trim(),
       activo: true,
+      sala: sala,
     };
     localStorage.setItem("sessionActual", JSON.stringify(sessionActual));
   }
@@ -126,8 +127,7 @@
       if ($input.value.trim() === "") {
         generarName();
       }
-      const $inputs = document.getElementById("nameUsuario");
-      local($inputs.value);
+      local($input.value, salaSeleccionada);
       window.location.href = "/chat";
     });
 
