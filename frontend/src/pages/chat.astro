@@ -2,18 +2,76 @@
 import Message from "../components/Message.astro";
 import Layout from "../layouts/Layout.astro";
 import HeaderChat from "../components/HeaderChat.astro";
+import ChatContainer from "../components/chatContainer.astro";
+---
+const mensajes = [
+  {
+    id: 1,
+    user: "User 789",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 2,
+    user: "yo",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+  {
+    id: 3,
+    user: "User 123",
+    text: "Hi",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 4,
+    user: "Yo",
+    text: "dsgfsd",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+  {
+    id: 5,
+    user: "User 123",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 6,
+    user: "yo",
+    text: "lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+  {
+    id: 7,
+    user: "User 123",
+    text: "Hi",
+    time: "10:02 a. m.",
+    fromMe: false,
+  },
+  {
+    id: 8,
+    user: "Yo",
+    text: "dsgfsd",
+    time: "10:02 a. m.",
+    fromMe: true,
+  },
+];
 ---
 
 <Layout>
-    <header>
-        <HeaderChat />
-    </header>
+<main>
 
-    <main class="min-h-[90vh]">
+  <ChatContainer mensajes={mensajes} />
 
-    </main>
+</main>
+<footer>
+    <Message></Message>
+</footer>
 
-    <footer>
-        <Message></Message>
-    </footer>
 </Layout>
