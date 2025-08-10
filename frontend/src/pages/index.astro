@@ -1,6 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
+
+const res = await fetch('http://localhost:3000/api/salas')
+const data = await res.json();
+
 ---
 
 <Layout>
@@ -16,43 +20,16 @@ import Card from "../components/Card.astro";
     <section
       id="salas"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-    >
-      <Card
+    >{(data?
+      data.map( (e) =>     <Card
         icon="💻"
-        title="Tecnología"
-        description="Comparte ideas sobre avances tecnológicos, gadgets y programación."
+        title={e.nombre}
+        description={e.descripcion}
         buttonText="Ingresar a la sala"
-      />
-      <Card
-        icon="🎵"
-        title="Música"
-        description="Habla sobre tus géneros favoritos, artistas y descubre nueva música."
-        buttonText="Ingresar a la sala"
-      />
-      <Card
-        icon="🎬"
-        title="Películas"
-        description="Recomienda películas, comenta estrenos o clásicos que te encantan."
-        buttonText="Ingresar a la sala"
-      />
-      <Card
-        icon="☕"
-        title="Café Chat"
-        description="Un espacio relajado para charlar de cualquier tema, como en una cafetería."
-        buttonText="Ingresar a la sala"
-      />
-      <Card
-        icon="🎮"
-        title="Videojuegos"
-        description="Comparte tus juegos favoritos, tips, y experiencias gamer."
-        buttonText="Ingresar a la sala"
-      />
-      <Card
-        icon="📖"
-        title="Libros"
-        description="Habla sobre lecturas interesantes, autores y libros que te inspiraron."
-        buttonText="Ingresar a la sala"
-      />
+      />)
+    :
+     <p class="mx-auto w-auto col-span-1 md:col-span-2 ">no hay salas</p>  )
+    }
     </section>
   </main>
 </Layout>

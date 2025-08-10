@@ -34,7 +34,7 @@
         class="mb-4 px-4 py-2 border rounded w-full"
       />
       <button
-      type="button"
+        type="button"
         class="btn-close px-4 py-2 bg-red-500 active:scale-95 duration-300 text-white rounded hover:bg-red-700"
       >
         Cancelar
@@ -83,6 +83,7 @@
     const $input = document.getElementById("nameUsuario");
     $input.value = `${animal}${adj}`;
   }
+
   function local(input, sala) {
     const sessionActual = {
       nombre: input.trim(),
@@ -90,11 +91,27 @@
       sala: sala,
     };
     localStorage.setItem("sessionActual", JSON.stringify(sessionActual));
+
+    fetch("http://localhost:3000/api/usuario", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        apodo: sessionActual.nombre,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        alert("Usuario registrado:", data);
+        window.location.href = "/chat";
+      })
+      .catch((err) => {
+        alert("Error al registrar usuario:", err);
+      });
   }
+
   document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("modal");
     const modalContent = document.getElementById("modal-content");
-    const confirmBtn = document.getElementById("confirmar");
     let salaSeleccionada = null;
 
     const botones = document.getElementsByClassName("btn-modal");
@@ -103,6 +120,7 @@
         modal.classList.add("hidden");
       }
     });
+
     for (let btn of botones) {
       btn.addEventListener("click", (e) => {
         const title = btn.dataset.title;
@@ -120,6 +138,7 @@
         modal.classList.add("hidden");
       });
     }
+
     const form = modal.querySelector("form");
     form.addEventListener("submit", (event) => {
       event.preventDefault();
@@ -128,7 +147,6 @@
         generarName();
       }
       local($input.value, salaSeleccionada);
-      window.location.href = "/chat";
     });
 
     document.addEventListener("keydown", (e) => {

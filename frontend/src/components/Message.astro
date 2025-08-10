@@ -1,102 +1,127 @@
-<form id="chatForm" class="fixed flex bottom-0 h-[35%] md:h-[30%] w-full px-5 py-3 items-end">
-    <div 
-        contenteditable="true"
-        role="textbox"
-        aria-multiline="true"
-        aria-label="Escribe un mensaje"
-        data-placeholder="Escribe un mensaje..."
-        tabindex="0"
-        id="editorMensaje"
-        class="editable empty border border-gray-400 bg-gray-100 px-2 py-2 w-[95%] max-h-full min-h-11 mr-1 shadow-lg rounded-md
-            overflow-y-auto resize-none focus:outline-none focus:border-gray-500">
-    </div>
-    <button 
-        type="submit"
-        id="enviar"
-        aria-label="Enviar mensaje" 
-        class="border-2 border-gray-400 rounded-md bg-gray-400 text-white px-2 py-1 w-16 h-11 text-2xl 
-            shadow-lg cursor-pointer align-middle hover:bg-gray-500 hover:border-gray-500">
+<form
+  id="chatForm"
+  class="fixed flex bottom-0 h-[35%] md:h-[30%] w-full px-5 py-3 items-end"
+>
+  <div
+    contenteditable="true"
+    role="textbox"
+    aria-multiline="true"
+    aria-label="Escribe un mensaje"
+    data-placeholder="Escribe un mensaje..."
+    tabindex="0"
+    id="editorMensaje"
+    class="editable empty border border-gray-400 bg-gray-100 px-2 py-2 w-[95%] max-h-full min-h-11 mr-1 shadow-lg rounded-md
+            overflow-y-auto resize-none focus:outline-none focus:border-gray-500"
+  >
+  </div>
+  <button
+    type="submit"
+    id="enviar"
+    aria-label="Enviar mensaje"
+    class="border-2 border-gray-400 rounded-md bg-gray-400 text-white px-2 py-1 w-16 h-11 text-2xl
+            shadow-lg cursor-pointer align-middle hover:bg-gray-500 hover:border-gray-500"
+  >
     ⌯⌲
-    </button>
+  </button>
 </form>
 
 <script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("chatForm");
+    const messageBox = document.getElementById("editorMensaje");
+    const btnSubmit = document.getElementById("enviar");
+    const mensajes = [];
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("chatForm");
-        const messageBox = document.getElementById("editorMensaje");
-        const btnSubmit = document.getElementById("enviar")
-        const mensajes = [];
+    function enviarMensaje() {
+      let texto = messageBox?.innerText.trim();
+      const usuario = JSON.parse(localStorage.getItem("sessionActual")) || {
+        nombre: "Anonimo",
+      };
 
-        function enviarMensaje(){
-            let texto = messageBox?.innerText.trim();
-            const usuario = JSON.parse(localStorage.getItem("sessionActual")) || { nombre: 'Anonimo'};
+      if (texto !== "") {
+        const newMessage = {
+          text: texto,
+          autor: usuario.nombre,
+          sala:usuario.sala,
+          dia: new Date().toLocaleDateString(),
+          hora: new Date().toLocaleTimeString(),
+        };
 
-            if (texto !== "") {
-                const newMessage = {
-                text: texto,
-                autor: usuario.nombre,
-                dia: new Date().toLocaleDateString(),
-                hora: new Date().toLocaleTimeString()
-                };
-                
-                mensajes.push(newMessage);
-                console.log('Mensaje guardado:', mensajes);
-                if (messageBox?.innerText) {
-                    messageBox.innerText = "";
-                }
-                actualizarPlaceholder(messageBox)
-            }
-        }
-
-        function actualizarPlaceholder(mensaje) {
-            // Elimina espacios, saltos de línea y etiquetas invisibles
-            const contenido = mensaje.textContent.replace(/\s|\u200B|\n|\r/g, "").trim();
-  
-            if (contenido.length === 0) {
-                mensaje.classList.add("empty");
-            } else {
-                mensaje.classList.remove("empty");
-            }
-        }
-        
-        //boton para enviar el texto
-        btnSubmit?.addEventListener("click", () => (enviarMensaje()));
-
-        //enviar con Enter
-        form.addEventListener("submit", (event) => {
-            event.preventDefault(); // evita recargar la pagina
-            enviarMensaje();
-        });
-
-        //Salto de parrafo con Enter+Shif
-        messageBox?.addEventListener("keydown", (event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
-                event.preventDefault();
-                form.requestSubmit(); 
-            }
+        fetch("http://localhost:3000/api/mensaje", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            apodo: newMessage.autor,
+            nombreSala: newMessage.sala,
+            contenido: newMessage.text,
+          }),
         })
+          .then((res) => res.json())
+          .then((data) => {
+            alert("mensaje enviado registrado:", data);
+          })
+          .catch((err) => {
+            alert("Error al registrar mensaje:", err);
+          });
+        mensajes.push(newMessage);
+        console.log("Mensaje guardado:", mensajes);
+        if (messageBox?.innerText) {
+          messageBox.innerText = "";
+        }
 
         actualizarPlaceholder(messageBox);
+      }
+    }
 
-        //cuando el usuario hace click afuera
-        messageBox.addEventListener("blur", () => {
-            actualizarPlaceholder(messageBox);
-        })
+    function actualizarPlaceholder(mensaje) {
+      // Elimina espacios, saltos de línea y etiquetas invisibles
+      const contenido = mensaje.textContent
+        .replace(/\s|\u200B|\n|\r/g, "")
+        .trim();
 
-        //el evento se dispara cada que el texto cambie 
-        messageBox?.addEventListener("input", () => {
-            actualizarPlaceholder(messageBox);
-        });
+      if (contenido.length === 0) {
+        mensaje.classList.add("empty");
+      } else {
+        mensaje.classList.remove("empty");
+      }
+    }
 
-    })
+    //boton para enviar el texto
+    btnSubmit?.addEventListener("click", () => enviarMensaje());
+
+    //enviar con Enter
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); // evita recargar la pagina
+      enviarMensaje();
+    });
+
+    //Salto de parrafo con Enter+Shif
+    messageBox?.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        form.requestSubmit();
+      }
+    });
+
+    actualizarPlaceholder(messageBox);
+
+    //cuando el usuario hace click afuera
+    messageBox.addEventListener("blur", () => {
+      actualizarPlaceholder(messageBox);
+    });
+
+    //el evento se dispara cada que el texto cambie
+    messageBox?.addEventListener("input", () => {
+      actualizarPlaceholder(messageBox);
+    });
+  });
 </script>
 
 <style>
-    .editable.empty::before{
-        content: attr(data-placeholder);
-        color: gray;
-        opacity: 0.8;
-        pointer-events: none;
-    }
+  .editable.empty::before {
+    content: attr(data-placeholder);
+    color: gray;
+    opacity: 0.8;
+    pointer-events: none;
+  }
 </style>
