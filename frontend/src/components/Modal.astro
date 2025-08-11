@@ -96,13 +96,13 @@
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        apodo: sessionActual.nombre,
+        apodo: sessionActual.nombre
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        alert("Usuario registrado:", data);
-        window.location.href = "/chat";
+        alert("Usuario registrado:", sessionActual.nombre);
+        window.location.href = `/sala/${encodeURIComponent(sessionActual.sala)}`;
       })
       .catch((err) => {
         alert("Error al registrar usuario:", err);

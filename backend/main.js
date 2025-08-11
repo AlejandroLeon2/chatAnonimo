@@ -2,7 +2,7 @@
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import router from '../backend/src/routes/index.js';
+import router from './src/routes/index.js';
 
 const app = express(); // ✅ esta línea es esencial
 const PORT = process.env.PORT || 3000;

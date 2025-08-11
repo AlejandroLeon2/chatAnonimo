@@ -1,0 +1,33 @@
+---
+import Message from "../../components/Message.astro";
+import LayoutMensaje from "../../layouts/LayoutMensaje.astro";
+import HeaderChat from "../../components/HeaderChat.astro";
+import ChatContainer from "../../components/ChatContainer.astro";
+
+export async function getStaticPaths() {
+  const res = await fetch("http://localhost:3000/api/salas");
+  const salas = await res.json();
+
+  return salas.map((sala) => ({
+    params: { nombre: sala.nombre },
+  }));
+}
+
+const { nombre } = Astro.params;
+  const res = await fetch("http://localhost:3000/api/salas");
+  const salas = await res.json();
+  const obj = nombre;
+  const sala = salas.find((s) => s.nombre === obj);
+
+
+---
+
+<LayoutMensaje title={nombre}>
+  <HeaderChat />
+  <main>
+    <ChatContainer sala={sala.id} />
+  </main>
+  <footer>
+    <Message />
+  </footer>
+</LayoutMensaje>

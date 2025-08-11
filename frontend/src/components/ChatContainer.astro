@@ -1,21 +1,81 @@
 ---
-import ChatMessage from './ChatMessage.astro'
-
-const { mensajes } = Astro.props
+const { sala } = Astro.props;
 ---
-<section class="bg-gray-100 h-screen w-full flex flex-col">
-  <div class="flex flex-col flex-1 bg-white">
 
-    <section class="flex-1 overflow-y-auto p-4 space-y-4">
-      {mensajes.map(msg => (
-        <ChatMessage
-          key={msg.id}
-          user={msg.user}
-          text={msg.text}
-          time={msg.time}
-          fromMe={msg.fromMe}
-        />
-      ))}
-    </section>
-  </div>
+<section class="bg-gray-100 w-full flex flex-col">
+  <section
+    id="chat-container"
+    data-sala={sala}
+    class="flex-1 p-4 space-y-4 max-h-[75svh] overflow-y-scroll"
+  >
+  </section>
 </section>
+<script is:inline type="module">
+  const titleEl = document.getElementById("title");
+  const base = titleEl.textContent ;
+  const idSala = document.querySelector("#chat-container").dataset.sala;
+  const chatContainer = document.querySelector("#chat-container");
+  const sessionActual = JSON.parse(localStorage.getItem("sessionActual"));
+
+  let isVisible = true;
+  document.addEventListener("visibilitychange", () => {
+    isVisible = document.visibilityState === "visible";
+    if (document.visibilityState === "hidden") {
+      titleEl.textContent = "¡Volvé al chat!";
+    } else {
+      titleEl.textContent = base;
+    }
+  });
+
+  async function fetchMensajes() {
+    if (!isVisible || !idSala || !chatContainer) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:3000/api/sala/${idSala}/mensajes`
+      );
+      const mensajes = await res.json();
+      mensajes.reverse();
+
+      chatContainer.innerHTML = "";
+      console.log("conuslta");
+      mensajes.forEach((msg) => {
+        const fromMe = msg.usuario === sessionActual.nombre;
+        const time = new Date(msg.created_at).toLocaleTimeString();
+
+        const article = document.createElement("article");
+        article.className = `flex ${fromMe ? "justify-end" : "justify-start"}`;
+        article.setAttribute("aria-label", `Mensaje de ${msg.usuario}`);
+
+        const div = document.createElement("div");
+        div.className = `max-w-[80%] rounded-lg px-4 py-2 text-sm ${
+          fromMe
+            ? "bg-blue-600 text-white rounded-br-none"
+            : "bg-gray-200 text-gray-900 rounded-bl-none"
+        }`;
+
+        const header = document.createElement("header");
+        header.className = "text-xs font-semibold mb-1";
+        header.textContent = msg.usuario;
+
+        const p = document.createElement("p");
+        p.className = "break-words";
+        p.textContent = msg.contenido;
+
+        const timeEl = document.createElement("time");
+        timeEl.className = "text-[10px] text-gray-400 mt-1 block text-right";
+        timeEl.textContent = time;
+
+        div.appendChild(header);
+        div.appendChild(p);
+        div.appendChild(timeEl);
+        article.appendChild(div);
+        chatContainer.appendChild(article);
+      });
+    } catch (err) {
+      console.error("Error al hacer polling:", err);
+    }
+  }
+
+  setInterval(fetchMensajes, 1000);
+</script>
