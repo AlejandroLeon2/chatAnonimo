@@ -47,7 +47,7 @@
           hora: new Date().toLocaleTimeString(),
         };
 
-        fetch("http://localhost:3000/api/mensaje", {
+        fetch("https://chatanonimo-production.up.railway.app/api/mensaje", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

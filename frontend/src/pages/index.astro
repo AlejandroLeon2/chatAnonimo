@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import Card from "../components/Card.astro";
 
-const res = await fetch("http://localhost:3000/api/salas");
+const res = await fetch("https://chatanonimo-production.up.railway.app/api/salas");
 const data = await res.json();
 ---
 
